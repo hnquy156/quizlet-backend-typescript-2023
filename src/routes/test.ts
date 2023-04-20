@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import TestController from '../controllers/test';
+import asyncHandler from '../middlewares/asyncHandler';
 
 class TestRouter {
   public router: Router;
@@ -10,8 +11,8 @@ class TestRouter {
   }
 
   private init(): void {
-    this.router.get('/', TestController.get);
-    this.router.post('/', TestController.create);
+    this.router.get('/', asyncHandler(TestController.get));
+    this.router.post('/', asyncHandler(TestController.create));
   }
 }
 

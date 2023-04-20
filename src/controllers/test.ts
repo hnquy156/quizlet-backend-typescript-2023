@@ -10,7 +10,6 @@ class TestController {
 
   public async create(req: Request, res: Response) {
     const test: ITest = req.body;
-    console.log('🚀 ~ test:', test)
     await TestService.create(test);
     res.json({ success: true, data: 'ok' });
   }
