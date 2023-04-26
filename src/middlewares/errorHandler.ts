@@ -20,8 +20,10 @@ export default class ErrorHandler {
   ): void {
     // console.log('🚀 ~ err:', err);
 
-    res
-      .status(err.statusCode || 500)
-      .json({ success: false, message: err.message || 'Server Error' });
+    res.status(err.statusCode || 500).json({
+      success: false,
+      message: err.message || err || 'Server Error',
+      error: err,
+    });
   }
 }
