@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import TestService from '../services/test';
 import AuthService from '../services/auth';
 import { ITest } from '../interfaces/test';
-import { Register } from '../interfaces/auth';
+import { Login, Register } from '../interfaces/auth';
 import AuthValidate from '../validates/auth';
 
 class AuthController {
@@ -22,6 +22,17 @@ class AuthController {
     const user = await AuthService.createUser(data);
 
     res.json({ success: true, data: user, message: 'Register successfully!' });
+  }
+
+  public async login(req: Request, res: Response) {
+    const data: Login = await AuthValidate.login(req.body);
+    const loginInfo = await AuthService.login(data);
+
+    res.json({
+      success: true,
+      data: loginInfo,
+      message: 'Login successfully!',
+    });
   }
 }
 

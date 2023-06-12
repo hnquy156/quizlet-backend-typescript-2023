@@ -14,6 +14,7 @@ class AuthRouter {
     // this.router.get('/', asyncHandler(AuthController.get));
     this.router.post('/', asyncHandler(AuthController.create));
     this.router.post('/register', asyncHandler(AuthController.register));
+    this.router.post('/login', asyncHandler(AuthController.login));
   }
 }
 

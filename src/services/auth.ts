@@ -1,7 +1,8 @@
-import { Register } from '../interfaces/auth';
-import { ITest } from '../interfaces/test';
+import { Login, Register } from '../interfaces/auth';
 import TestModel from '../models/test';
 import UserModel from '../models/users';
+import BcryptUntil from '../utils/bcrypt';
+import JWTUtils from '../utils/jwt';
 
 class AuthService {
   public async get() {
@@ -44,6 +45,22 @@ class AuthService {
       if (user) throw 'Phone is existing!';
     }
     return true;
+  }
+
+  public async login(payload: Login) {
+    const { username, password } = payload;
+
+    const user = await UserModel.findOne({ username });
+    if (!user) throw 'Username or Password is invalid!';
+
+    if (!BcryptUntil.compare(password, user.password))
+      throw 'Username or Password is invalid!';
+
+    const token = JWTUtils.generateToken({
+      username,
+    });
+
+    return { token };
   }
 }
 
