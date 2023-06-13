@@ -12,7 +12,7 @@ class AuthController {
   }
 
   public async create(req: Request, res: Response) {
-    const test: ITest = req.body;
+    // const test: ITest = req.body;
     // await TestService.create(test);
     res.json({ success: true, data: 'ok AUTH' });
   }
