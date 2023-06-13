@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, required: false },
   created_at: { type: Date, default: Date.now },
   is_deleted: { type: Boolean, default: false },
+  token: { type: String, required: false },
 });
 
 userSchema.pre('save', async function (next) {

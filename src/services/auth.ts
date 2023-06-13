@@ -1,4 +1,4 @@
-import { Login, Register } from '../interfaces/auth';
+import { Login, Register, User } from '../interfaces/auth';
 import TestModel from '../models/test';
 import UserModel from '../models/users';
 import BcryptUntil from '../utils/bcrypt';
@@ -25,6 +25,10 @@ class AuthService {
       email,
       phone,
     };
+  }
+
+  public async updateUser(id: string, payload: User) {
+    return await UserModel.findByIdAndUpdate(id, payload);
   }
 
   public async checkExistingUser({
@@ -56,9 +60,13 @@ class AuthService {
     if (!BcryptUntil.compare(password, user.password))
       throw 'Username or Password is invalid!';
 
+    const userId = user._id.toString();
     const token = JWTUtils.generateToken({
+      userId,
       username,
     });
+
+    await this.updateUser(userId, { token });
 
     return { token };
   }
