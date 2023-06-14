@@ -4,6 +4,7 @@ import AuthService from '../services/auth';
 import { ITest } from '../interfaces/test';
 import { Login, Register } from '../interfaces/auth';
 import AuthValidate from '../validates/auth';
+import { CustomRequest } from '../interfaces/express';
 
 class AuthController {
   public async get(req: Request, res: Response) {
@@ -32,6 +33,20 @@ class AuthController {
       success: true,
       data: loginInfo,
       message: 'Login successfully!',
+    });
+  }
+
+  public async logout(req: CustomRequest, res: Response) {
+    const userId = req?.user?.userId;
+    if (!userId) {
+      throw 'Logout failed!';
+    }
+
+    await AuthService.updateUser(userId, { token: '' });
+
+    res.json({
+      success: true,
+      message: 'Logout successfully!',
     });
   }
 }
