@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { TokenPayload } from '../interfaces/auth';
 
 class JWTUtils {
   public static generateToken(payload: object) {
@@ -9,6 +10,15 @@ class JWTUtils {
     });
 
     return token;
+  }
+
+  public static verifyToken(token: string) {
+    const payload: TokenPayload = jwt.verify(
+      token,
+      process.env.SECRET_KEY as string
+    ) as TokenPayload;
+
+    return payload;
   }
 }
 
