@@ -57,7 +57,7 @@ class AuthService {
     const user = await UserModel.findOne({ username });
     if (!user) throw 'Username or Password is invalid!';
 
-    if (!BcryptUntil.compare(password, user.password))
+    if (!(await BcryptUntil.compare(password, user.password)))
       throw 'Username or Password is invalid!';
 
     const userId = user._id.toString();
