@@ -54,7 +54,9 @@ class AuthService {
   public async login(payload: Login) {
     const { username, password } = payload;
 
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({
+      $or: [{ username }, { email: username }],
+    });
     if (!user) throw 'Username or Password is invalid!';
 
     if (!(await BcryptUntil.compare(password, user.password)))
