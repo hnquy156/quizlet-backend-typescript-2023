@@ -1,5 +1,5 @@
 import { Request } from 'express';
 
 export interface CustomRequest extends Request {
-  user?: { [key: string]: any };
+  user?: { [key: string]: any; userId: string };
 }
